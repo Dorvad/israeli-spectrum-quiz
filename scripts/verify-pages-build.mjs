@@ -1,4 +1,7 @@
 import { readFile } from 'node:fs/promises';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { createServer } from 'vite';
 
 const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 
@@ -17,4 +20,22 @@ if (absoluteAsset) {
   throw new Error(`GitHub Pages asset path must be relative, but found: ${absoluteAsset}`);
 }
 
-console.log(`Verified ${assetMatches.length} relative built asset paths for GitHub Pages.`);
+const viteServer = await createServer({
+  root: new URL('..', import.meta.url).pathname,
+  server: { middlewareMode: true },
+  appType: 'custom',
+  logLevel: 'error',
+});
+
+try {
+  const { default: App } = await viteServer.ssrLoadModule('/src/App.jsx');
+  const rendered = renderToString(React.createElement(App));
+
+  if (!rendered.includes('מפת הספקטרום הישראלי')) {
+    throw new Error('The React app did not render the expected Hebrew title during smoke verification.');
+  }
+} finally {
+  await viteServer.close();
+}
+
+console.log(`Verified ${assetMatches.length} relative built asset paths and React smoke render for GitHub Pages.`);
