@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@theme {
+  --font-sans: "Inter", "Assistant", "Noto Sans Hebrew", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: var(--font-sans);
+  background: #070812;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #070812;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.sigil-fallback::before,
+.sigil-fallback::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 44px rgba(103, 232, 249, 0.2), inset 0 0 28px rgba(240, 171, 252, 0.12);
+  animation: orbit 7s linear infinite;
+}
+
+.sigil-fallback::after {
+  inset: 30%;
+  border-color: rgba(253, 224, 71, 0.28);
+  animation-duration: 4.5s;
+  animation-direction: reverse;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.12); }
+  to { transform: rotate(360deg) scale(1); }
+}
+
+.react-flow {
+  direction: ltr;
+  --xy-node-border-default: transparent;
+  --xy-edge-stroke-default: rgba(255, 255, 255, .2);
+  --xy-background-color-default: transparent;
+  --xy-controls-button-background-color-default: rgba(15, 23, 42, .75);
+  --xy-controls-button-color-default: white;
+  --xy-controls-button-border-color-default: rgba(255,255,255,.12);
+}
+
+.react-flow__attribution {
+  background: rgba(2, 6, 23, 0.45) !important;
+  color: rgba(226, 232, 240, 0.72) !important;
+  border-radius: 999px !important;
+  padding: 2px 8px !important;
+}
+
+.react-flow__edge-path {
+  filter: drop-shadow(0 0 10px rgba(103, 232, 249, 0.18));
+}
+
+select option {
+  background: #0f172a;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
