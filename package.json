@@ -1,0 +1,32 @@
+{
+  "name": "israeli-spectrum-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "@gsap/react": "latest",
+    "@radix-ui/react-slot": "latest",
+    "@rive-app/react-webgl2": "latest",
+    "@xyflow/react": "latest",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "gsap": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwind-merge": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "latest",
+    "@vitejs/plugin-react": "latest",
+    "gh-pages": "latest",
+    "tailwindcss": "latest",
+    "vite": "latest"
+  }
+}
