@@ -59,47 +59,53 @@ export function QuestionCard({ question, index, total, value, onAnswer, onNext, 
         </CardHeader>
 
         <CardContent className="relative grid gap-6">
-          <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-            <PositionPanel text={question.left} side="left" />
-            <div className="hidden items-center justify-center lg:flex">
+          <div className="question-grid">
+            <div className="question-panel-a">
+              <PositionPanel text={question.left} side="left" />
+            </div>
+
+            <div className="question-sep" aria-hidden="true">
               <div className="h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
             </div>
-            <PositionPanel text={question.right} side="right" />
-          </div>
 
-          <div className="rounded-[1.7rem] border border-white/[0.10] bg-black/[0.18] p-4 sm:p-5">
-            <div className="relative grid grid-cols-7 gap-2">
-              <div className="absolute left-0 right-0 top-1/2 -z-0 h-1 -translate-y-1/2 rounded-full bg-gradient-to-l from-red-400/60 via-white/20 to-cyan-300/60" />
-              {[1, 2, 3, 4, 5, 6, 7].map((answer) => (
-                <button
-                  key={answer}
-                  type="button"
-                  onClick={() => choose(answer)}
-                  className={cn(
-                    'answer-dot group relative z-10 min-h-16 rounded-2xl border border-white/[0.10] bg-slate-950/[0.85] p-2 text-center shadow-[0_16px_40px_rgba(0,0,0,.25)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/[0.40] hover:bg-white/[0.10]',
-                    value === answer && 'border-cyan-200/[0.70] bg-cyan-200/[0.13] ring-2 ring-cyan-200/[0.30]'
-                  )}
-                  aria-pressed={value === answer}
-                >
-                  <span className="block text-lg font-black text-white">{answer}</span>
-                  {value === answer && (
-                    <span className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_30px_rgba(103,232,249,.9)]" />
-                  )}
-                </button>
-              ))}
+            <div className="question-panel-b">
+              <PositionPanel text={question.right} side="right" />
             </div>
 
-            <button
-              type="button"
-              onClick={() => choose(null)}
-              className={cn(
-                'mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-white/[0.15] bg-white/[0.03] px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-white/[0.07]',
-                value === null && 'border-cyan-200/[0.50] text-cyan-100'
-              )}
-            >
-              <HelpCircle className="h-4 w-4" />
-              לא יודע/ת או לא רלוונטי לי
-            </button>
+            <div className="question-scale rounded-[1.7rem] border border-white/[0.10] bg-black/[0.18] p-4 sm:p-5">
+              <div className="relative grid grid-cols-7 gap-2">
+                <div className="absolute left-0 right-0 top-1/2 -z-0 h-1 -translate-y-1/2 rounded-full bg-gradient-to-l from-red-400/60 via-white/20 to-cyan-300/60" />
+                {[1, 2, 3, 4, 5, 6, 7].map((answer) => (
+                  <button
+                    key={answer}
+                    type="button"
+                    onClick={() => choose(answer)}
+                    className={cn(
+                      'answer-dot group relative z-10 min-h-14 rounded-2xl border border-white/[0.10] bg-slate-950/[0.85] p-2 text-center shadow-[0_16px_40px_rgba(0,0,0,.25)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/[0.40] hover:bg-white/[0.10]',
+                      value === answer && 'border-cyan-200/[0.70] bg-cyan-200/[0.13] ring-2 ring-cyan-200/[0.30]'
+                    )}
+                    aria-pressed={value === answer}
+                  >
+                    <span className="block text-lg font-black text-white">{answer}</span>
+                    {value === answer && (
+                      <span className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_30px_rgba(103,232,249,.9)]" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => choose(null)}
+                className={cn(
+                  'mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-white/[0.15] bg-white/[0.03] px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-white/[0.07]',
+                  value === null && 'border-cyan-200/[0.50] text-cyan-100'
+                )}
+              >
+                <HelpCircle className="h-4 w-4" />
+                לא יודע/ת או לא רלוונטי לי
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -121,10 +127,10 @@ export function QuestionCard({ question, index, total, value, onAnswer, onNext, 
 function PositionPanel({ text, side }) {
   return (
     <div className={cn(
-      'relative overflow-hidden rounded-[1.7rem] border border-white/[0.10] bg-white/[0.045] p-5 min-h-44',
-      side === 'left' ? 'shadow-[inset_-30px_0_80px_rgba(103,232,249,.05)]' : 'shadow-[inset_30px_0_80px_rgba(248,113,113,.05)]'
+      'relative h-full overflow-hidden rounded-[1.7rem] border border-white/[0.10] bg-white/[0.045] p-5',
+      side === 'left' ? 'shadow-[inset_-30px_0_80px_rgba(103,232,249,.07)]' : 'shadow-[inset_30px_0_80px_rgba(248,113,113,.07)]'
     )}>
-      <p className="text-lg font-bold leading-8 text-slate-100">{text}</p>
+      <p className="text-base font-bold leading-7 text-slate-100 lg:text-lg lg:leading-8">{text}</p>
     </div>
   );
 }
