@@ -10,15 +10,6 @@ import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(useGSAP);
 
-const scaleLabels = {
-  1: 'מאוד שמאלה',
-  2: 'שמאלה',
-  3: 'קצת שמאלה',
-  4: 'אמצע',
-  5: 'קצת ימינה',
-  6: 'ימינה',
-  7: 'מאוד ימינה',
-};
 
 export function QuestionCard({ question, index, total, value, onAnswer, onNext, onBack, canGoBack }) {
   const scope = useRef(null);
@@ -69,19 +60,14 @@ export function QuestionCard({ question, index, total, value, onAnswer, onNext, 
 
         <CardContent className="relative grid gap-6">
           <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-            <PositionPanel label="קוטב שמאלי" text={question.left} side="left" />
+            <PositionPanel text={question.left} side="left" />
             <div className="hidden items-center justify-center lg:flex">
               <div className="h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
             </div>
-            <PositionPanel label="קוטב ימני" text={question.right} side="right" />
+            <PositionPanel text={question.right} side="right" />
           </div>
 
           <div className="rounded-[1.7rem] border border-white/[0.10] bg-black/[0.18] p-4 sm:p-5">
-            <div className="mb-4 grid grid-cols-3 text-xs font-bold text-slate-400">
-              <span className="text-right">שמאל</span>
-              <span className="text-center">אמצע</span>
-              <span className="text-left">ימין</span>
-            </div>
             <div className="relative grid grid-cols-7 gap-2">
               <div className="absolute left-0 right-0 top-1/2 -z-0 h-1 -translate-y-1/2 rounded-full bg-gradient-to-l from-red-400/60 via-white/20 to-cyan-300/60" />
               {[1, 2, 3, 4, 5, 6, 7].map((answer) => (
@@ -96,7 +82,6 @@ export function QuestionCard({ question, index, total, value, onAnswer, onNext, 
                   aria-pressed={value === answer}
                 >
                   <span className="block text-lg font-black text-white">{answer}</span>
-                  <span className="mt-1 hidden text-[10px] font-bold leading-3 text-slate-400 sm:block">{scaleLabels[answer]}</span>
                   {value === answer && (
                     <span className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_30px_rgba(103,232,249,.9)]" />
                   )}
@@ -133,13 +118,12 @@ export function QuestionCard({ question, index, total, value, onAnswer, onNext, 
   );
 }
 
-function PositionPanel({ label, text, side }) {
+function PositionPanel({ text, side }) {
   return (
     <div className={cn(
       'relative overflow-hidden rounded-[1.7rem] border border-white/[0.10] bg-white/[0.045] p-5 min-h-44',
       side === 'left' ? 'shadow-[inset_-30px_0_80px_rgba(103,232,249,.05)]' : 'shadow-[inset_30px_0_80px_rgba(248,113,113,.05)]'
     )}>
-      <div className="mb-4 text-xs font-black uppercase tracking-[.24em] text-slate-500">{label}</div>
       <p className="text-lg font-bold leading-8 text-slate-100">{text}</p>
     </div>
   );
