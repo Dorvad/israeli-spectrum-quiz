@@ -3,10 +3,6 @@ import { Background, ReactFlow, Handle, Position } from '@xyflow/react';
 import { Badge } from '@/components/ui/badge';
 import { cn, formatScore } from '@/lib/utils';
 
-function scoreToX(score) {
-  return Math.round(((score ?? 0) / 100) * 310);
-}
-
 function ScoreNode({ data }) {
   const toneClass = data.tone === 'right'
     ? 'from-red-400/90 to-amber-200/90'
@@ -29,15 +25,19 @@ function ScoreNode({ data }) {
 
 const nodeTypes = { score: ScoreNode };
 
+const DIM_POSITIONS = [
+  { x: -240, y: 220 },
+  { x: 40, y: 220 },
+  { x: -240, y: 420 },
+  { x: 40, y: 420 },
+];
+
 export function ResultsFlow({ results }) {
   const { nodes, edges } = useMemo(() => {
-    const finalX = scoreToX(results.score);
-    const dimensionRows = [-210, -70, 70, 210];
-
     const finalNode = {
       id: 'final',
       type: 'score',
-      position: { x: finalX, y: 10 },
+      position: { x: -100, y: 0 },
       data: {
         kicker: 'ציון משוקלל',
         label: results.classification,
@@ -50,7 +50,7 @@ export function ResultsFlow({ results }) {
     const dimNodes = results.dimensions.map((dimension, index) => ({
       id: dimension.id,
       type: 'score',
-      position: { x: scoreToX(dimension.value), y: 230 + dimensionRows[index] },
+      position: DIM_POSITIONS[index],
       data: {
         kicker: `${Math.round(dimension.weight * 100)}% מהמודל`,
         label: dimension.shortLabel,
@@ -61,9 +61,9 @@ export function ResultsFlow({ results }) {
     }));
 
     const edges = dimNodes.map((node, index) => ({
-      id: `${node.id}-final`,
-      source: node.id,
-      target: 'final',
+      id: `final-${node.id}`,
+      source: 'final',
+      target: node.id,
       animated: true,
       style: {
         stroke: ['#67e8f9', '#f0abfc', '#fde047', '#f87171'][index],
@@ -76,13 +76,7 @@ export function ResultsFlow({ results }) {
   }, [results]);
 
   return (
-    <div className="relative h-[520px] overflow-hidden rounded-[2rem] border border-white/[0.10] bg-slate-950/[0.50] shadow-inner shadow-white/5">
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-px bg-white/15" />
-      <div className="pointer-events-none absolute inset-x-8 top-[calc(50%-22px)] z-10 flex justify-between text-xs font-black text-slate-500">
-        <span>ימין</span>
-        <span>מרכז</span>
-        <span>שמאל</span>
-      </div>
+    <div className="relative h-[580px] overflow-hidden rounded-[2rem] border border-white/[0.10] bg-slate-950/[0.50] shadow-inner shadow-white/5">
       <ReactFlow
         nodes={nodes}
         edges={edges}

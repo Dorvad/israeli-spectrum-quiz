@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { DimensionRail } from '@/components/DimensionRail';
 import { ParticleCanvas } from '@/components/ParticleCanvas';
+import { PartyMatch } from '@/components/PartyMatch';
 import { QuestionCard } from '@/components/QuestionCard';
 import { ResultsFlow } from '@/components/ResultsFlow';
 import { RiveSigil } from '@/components/RiveSigil';
@@ -35,7 +36,7 @@ export default function App() {
   const currentQuestion = questions[step];
 
   useGSAP(() => {
-    gsap.fromTo('.hero-piece', { y: 28, opacity: 0, filter: 'blur(12px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.72, stagger: 0.08, ease: 'power3.out' });
+    gsap.from('.hero-piece', { y: 28, duration: 0.72, stagger: 0.08, ease: 'power3.out' });
   }, { scope: appRef });
 
   const setAnswer = (value) => {
@@ -292,7 +293,7 @@ function CalibrationPanel({ calibration, setCalibration, onBack, onFinish }) {
 function ResultsScreen({ results, narrative, onBack, onReset, onCopy, copied, onDownload }) {
   return (
     <section className="grid flex-1 gap-6 py-8 lg:grid-cols-[.9fr_1.1fr]">
-      <div className="grid gap-6 content-start">
+      <div className="grid gap-6 content-start" style={{ gridAutoRows: 'max-content' }}>
         <Card className="overflow-hidden">
           <CardHeader>
             <Badge className="w-fit">תוצאה</Badge>
@@ -315,6 +316,8 @@ function ResultsScreen({ results, narrative, onBack, onReset, onCopy, copied, on
 
         <DimensionRail results={results} />
 
+        <PartyMatch results={results} />
+
         <div className="flex flex-wrap gap-3">
           <Button variant="ghost" onClick={onBack}>עריכת שאלות בקרה</Button>
           <Button variant="ghost" onClick={onCopy}>{copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? 'הועתק' : 'העתקת סיכום'}</Button>
@@ -326,7 +329,7 @@ function ResultsScreen({ results, narrative, onBack, onReset, onCopy, copied, on
       <Card className="overflow-hidden p-4 lg:sticky lg:top-24 lg:self-start">
         <CardHeader className="px-2">
           <CardTitle>מפת־צירים חיה</CardTitle>
-          <CardDescription>XYFlow מציג את הציון הכללי ואת ארבעת ממדי המשנה כקונסטלציה. ככל שנקודה זזה ימינה, היא ימנית יותר; שמאלה, שמאלית יותר.</CardDescription>
+          <CardDescription>הגרף מציג את הציון הכללי ואת ארבעת ממדי המשנה. חיצי הגרף יוצאים מהסיכום הכללי לכל ממד.</CardDescription>
         </CardHeader>
         <ResultsFlow results={results} />
       </Card>
