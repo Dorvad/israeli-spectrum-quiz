@@ -35,7 +35,7 @@ export default function App() {
   const currentQuestion = questions[step];
 
   useGSAP(() => {
-    gsap.fromTo('.hero-piece', { y: 28, opacity: 0, filter: 'blur(12px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.72, stagger: 0.08, ease: 'power3.out' });
+    gsap.fromTo('.hero-piece', { y: 28, filter: 'blur(12px)' }, { y: 0, filter: 'blur(0px)', duration: 0.72, stagger: 0.08, ease: 'power3.out' });
   }, { scope: appRef });
 
   const setAnswer = (value) => {
